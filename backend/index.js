@@ -6,14 +6,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const numbers = [
-  { id: 1 },
-  { id: 3 },
-  { id: 10 },
-  { id: 45 },
-  { id: 45 },
-  { id: 45 },
-];
+const data = require("./data.json");
+const numbers = data.data;
 
 app.get("/numbers", (req, res) => res.json(numbers));
 

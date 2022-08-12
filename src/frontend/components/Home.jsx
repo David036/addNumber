@@ -3,20 +3,18 @@ import { useState } from "react";
 import axios from "axios";
 
 import "./style.scss";
+import { useEffect } from "react";
 
 export default function Home() {
-  const [numbers, setNumbers] = useState();
+  const [numbers, setNumbers] = useState([]);
   const [number, setNumber] = useState("");
 
   const handleClick = async () => {
     if (number !== "") {
       try {
-        await axios
-          .post("http://localhost:3000/numbers", {
-            id: number,
-          })
-          .then(setNumbers(numbers, { id: number }))
-          .then(setNumber(""));
+        await axios.post("http://localhost:3000/numbers", number);
+        setNumbers([...numbers, number]);
+        setNumber("");
       } catch (err) {
         console.log(err);
       }
@@ -26,12 +24,15 @@ export default function Home() {
   const getData = async () => {
     try {
       const response = await axios.get("http://localhost:3000/numbers");
-      setNumbers(response.data);
+      setNumbers([...response?.data]);
     } catch (err) {
       console.log(err);
     }
   };
-  getData();
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <div className="home">
@@ -42,8 +43,8 @@ export default function Home() {
       ></input>
       <button onClick={handleClick}>Add</button>
       <div className="numbers">
-        {numbers?.map((el) => {
-          return <span>{el.id}</span>;
+        {numbers?.map((el, index) => {
+          return <div key={index}>{el}</div>;
         })}
       </div>
     </div>
