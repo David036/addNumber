@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 import "./style.scss";
@@ -10,23 +10,29 @@ export default function Home() {
 
   const handleClick = () => {
     if (number !== "") {
-      axios
-        .post("http://localhost:3000/numbers", {
-          id: number,
-        })
-        .then(setNumbers(numbers, { id: number }))
-        .then(setNumber(""))
-        .then(setNumbers([...numbers, { id: number }]));
+      try {
+        axios
+          .post("http://localhost:3000/numbers", {
+            id: number,
+          })
+          .then(setNumbers(numbers, { id: number }))
+          .then(setNumber(""))
+          .then(setNumbers([...numbers, { id: number }]));
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
-  useEffect(() => {
-    axios("http://localhost:3000/numbers", {
-      method: "GET",
-    }).then((response) => {
+  const getData = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/numbers");
       setNumbers(response.data);
-    });
-  }, []);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  getData();
 
   return (
     <div className="home">
@@ -38,7 +44,7 @@ export default function Home() {
       <button onClick={handleClick}>Add</button>
       <div className="numbers">
         {numbers?.map((el) => {
-          return <div>{el.id}</div>;
+          return <span>{el.id}</span>;
         })}
       </div>
     </div>
