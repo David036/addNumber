@@ -8,16 +8,15 @@ export default function Home() {
   const [numbers, setNumbers] = useState();
   const [number, setNumber] = useState("");
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (number !== "") {
       try {
-        axios
+        await axios
           .post("http://localhost:3000/numbers", {
             id: number,
           })
           .then(setNumbers(numbers, { id: number }))
-          .then(setNumber(""))
-          .then(setNumbers([...numbers, { id: number }]));
+          .then(setNumber(""));
       } catch (err) {
         console.log(err);
       }
