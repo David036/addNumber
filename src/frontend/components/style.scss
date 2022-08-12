@@ -1,0 +1,39 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  input {
+    max-width: 300px;
+  }
+  button {
+    padding: 5px 10px;
+    border: 1px solid black;
+    background-color: white;
+    cursor: pointer;
+    transition: 0.5s;
+    &:hover {
+      background-color: black;
+      color: white;
+    }
+  }
+  .numbers {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    span {
+      border: 1px solid black;
+      padding: 5px 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
